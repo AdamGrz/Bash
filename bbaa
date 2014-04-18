@@ -1,0 +1,218 @@
+#!/bin/bash
+
+alias cls='printf "\033c"'
+
+b=0
+while read line; do
+    array[b]=$line
+    b=$((b+1))
+done < map
+
+    template=("${array[@]}")
+
+    ##echo ${array[*]}
+
+    array[24]="\e[5m@\e[0m"
+    x=24
+        clear
+        Z=0
+    for (( b=0; b<=219; b++ ))
+    do
+        echo -ne ${array[b]}
+        if
+        [[ $b = $((Z+19)) ]]; then
+        Z=$((Z+20))
+        echo ""
+        fi
+    done
+echo ""
+echo ""
+
+
+Redraw()
+{
+    Z=0
+    for (( b=0; b<=219; b++ ))
+    do
+        echo -ne ${array[b]}
+        if
+        [[ $b = $((Z+19)) ]]; then
+        Z=$((Z+20))
+        echo ""
+        fi
+    done
+}
+
+
+
+ReadKey() {
+    # Wait for first char
+    if read -sN1 _REPLY; then
+      # Read rest of chars
+      while read -sN1 -t 0.05 ; do
+        _REPLY+="${REPLY}"
+      done
+    fi
+  }
+
+
+
+
+
+
+  while ReadKey  ; do
+    echo "${_REPLY}";
+    case "${_REPLY}" in
+     $'\e[A')                                       ## 'Up Arrow'
+        echo -en "\ec"
+
+            VAR=$(( ( RANDOM % 2 )  + 1 ))
+
+                if [[ $VAR = 1 ]]; then
+                play -q sss.wav &
+                fi
+                if [[ $VAR = 2 ]]; then
+                play -q ddd.wav &
+                fi
+
+                VAR=0
+
+        if [[ "${array[x-20]}" != "━" ]] &&\
+           [[ "${array[x-20]}" != "│" ]] &&\
+           [[ "${array[x-20]}" != "┍" ]] &&\
+           [[ "${array[x-20]}" != "┕" ]]; then
+
+        array=("${template[@]}")
+        x=$((x-20))
+        array[x]="\e[5m@\e[0m"
+
+        Z=0
+    for (( b=0; b<=219; b++ ))
+    do
+        echo -ne ${array[b]}
+        if
+        [[ $b = $((Z+19)) ]]; then
+        Z=$((Z+20))
+        echo ""
+        fi
+    done
+                                    else
+        Z=0
+    for (( b=0; b<=219; b++ ))
+    do
+        echo -ne ${array[b]}
+        if
+        [[ $b = $((Z+19)) ]]; then
+        Z=$((Z+20))
+        echo ""
+        fi
+    done
+    fi;;
+
+     $'\e[B')                                       ## 'Down Arrow'
+        clear;
+
+                play -q sss.wav &
+
+        if [[ "${array[x+20]}" != "━" ]] &&\
+           [[ "${array[x+20]}" != "│" ]] &&\
+           [[ "${array[x+20]}" != "┍" ]] &&\
+           [[ "${array[x+20]}" != "┕" ]]; then
+
+        array=("${template[@]}")
+        x=$((x+20))
+        array[x]="\e[5m@\e[0m"
+
+        Z=0
+    for (( b=0; b<=219; b++ ))
+    do
+        echo -ne ${array[b]}
+        if
+        [[ $b = $((Z+19)) ]]; then
+        Z=$((Z+20))
+        echo ""
+        fi
+    done
+                                    else
+        Z=0
+    for (( b=0; b<=219; b++ ))
+    do
+        echo -ne ${array[b]}
+        if
+        [[ $b = $((Z+19)) ]]; then
+        Z=$((Z+20))
+        echo ""
+        fi
+    done
+    fi;;
+
+     $'\e[C')                                       ## Right Arrow
+        clear;
+
+                play -q sss.wav &
+
+
+        if [[ "${array[x+1]}" != "━" ]] &&\
+           [[ "${array[x+1]}" != "│" ]] &&\
+           [[ "${array[x+1]}" != "┍" ]] &&\
+           [[ "${array[x+1]}" != "┕" ]]; then
+
+        array=("${template[@]}")
+        x=$((x+1))
+        array[x]="\e[5m@\e[0m"
+
+        Z=0
+    for (( b=0; b<=219; b++ ))
+    do
+        echo -ne ${array[b]}
+        if
+        [[ $b = $((Z+19)) ]]; then
+        Z=$((Z+20))
+        echo ""
+        fi
+    done
+                                    else
+        Z=0
+    for (( b=0; b<=219; b++ ))
+    do
+        echo -ne ${array[b]}
+        if
+        [[ $b = $((Z+19)) ]]; then
+        Z=$((Z+20))
+        echo ""
+        fi
+    done
+    fi;;
+
+      $'\e[D')                                          ## Left Arrow
+        clear;
+
+                play -q sss.wav &
+
+                                                        ##Can player move
+
+        if [[ "${array[x-1]}" != "━" ]] &&\
+           [[ "${array[x-1]}" != "│" ]] &&\
+           [[ "${array[x-1]}" != "┍" ]] &&\
+           [[ "${array[x-1]}" != "┕" ]]; then
+                                                    ##Updating location
+
+        array=("${template[@]}")
+        x=$((x-1))
+        array[x]="\e[5m@\e[0m"
+
+                                                    ##Redrawing map
+
+        Redraw
+
+                                    else
+
+        Redraw
+
+    fi;;
+
+    esac
+echo ""
+echo ""
+done
+
